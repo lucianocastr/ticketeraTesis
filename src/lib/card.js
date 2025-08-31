@@ -1,4 +1,4 @@
-// src/lib/card.js
+// src/lib/card.js /
 export function normalizeCard(value = "") {
   // deja solo dígitos y espacia en grupos de 4: "4242 4242 4242 4242"
   const digits = value.replace(/\D/g, "").slice(0, 19);
