@@ -1,0 +1,6 @@
+[
+  { "id": 1, "nombre": "Entrada General",      "precio": 15000, "stock": 20 },
+  { "id": 2, "nombre": "Entrada VIP",          "precio": 30000, "stock": 8  },
+  { "id": 3, "nombre": "Abono 2 días",         "precio": 45000, "stock": 5  },
+  { "id": 4, "nombre": "Estacionamiento",      "precio": 8000,  "stock": 50 }
+]

@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-neutral-900 text-neutral-100;
+}
+
+a {
+  @apply text-blue-400 hover:underline;
+}
