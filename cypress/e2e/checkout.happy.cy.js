@@ -6,6 +6,14 @@ describe('Flujo completo: login → catálogo → carrito → checkout → confi
       const { email, password } = users[0];
 
       cy.visit('/login');
+      cy.get('body').then($body => {
+      // ¿ya está el formulario?
+      if ($body.find('[data-testid="input-email"]').length === 0) {
+        // plan B: click al link de Login en el header (ancla o Link)
+        // - intenta selector por href que termina en 'login'
+        cy.get('a[href$="login"]').first().click({ force: true });
+      }
+    });
       cy.get('[data-testid="input-email"]').type(email);        // Login.jsx
       cy.get('[data-testid="input-password"]').type(password);  // Login.jsx
       cy.get('[data-testid="btn-login"]').click();              // Login.jsx
