@@ -1,4 +1,4 @@
-// cypress/e2e/auth.cy.js
+// cypress/e2e/auth.cy.js 
 describe('Auth: login OK e inválido', () => {
   it('login correcto redirige a /catalogo', () => {
     cy.readFile('src/data/usuarios.json').then(({ 0: u }) => {
