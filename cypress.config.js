@@ -1,15 +1,28 @@
-const { defineConfig } = require("cypress");
-
+const { defineConfig } = require('cypress');
 module.exports = defineConfig({
   e2e: {
-    baseUrl: "http://localhost:5173",
-    viewportWidth: 1280,
-    viewportHeight: 800,
+    baseUrl: 'https://lucianocastr.github.io/ticketeraTesis/', // Pages
     video: true,
-    screenshotOnRunFailure: true,
-    chromeWebSecurity: false,
+    screenshotsFolder: 'cypress/screenshots',
+    videosFolder: 'cypress/videos',
     setupNodeEvents(on, config) {
-      // hooks si los necesitás
+      // nada especial por ahora
+    },
+  },
+  reporter: 'cypress-multi-reporters',
+  reporterOptions: {
+    reporterEnabled: 'mochawesome, mocha-junit-reporter',
+    mochawesomeReporterOptions: {
+      reportDir: 'reports/mochawesome',
+      overwrite: false,
+      html: true,
+      json: true,
+      reportFilename: 'report-[datetime]',
+      charts: true,
+    },
+    mochaJunitReporterReporterOptions: {
+      mochaFile: 'reports/junit/results-[hash].xml',
+      testsuitesTitle: 'Cypress E2E Suite',
     },
   },
 });

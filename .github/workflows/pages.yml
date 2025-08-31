@@ -19,11 +19,9 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build
-      # SPA fallback para React Router:
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
+        with: { path: dist }
 
   deploy:
     needs: build
@@ -34,3 +32,26 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  e2e:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19
+          cache: 'npm'
+      - run: npm ci
+      # Forzamos baseUrl al sitio ya publicado en Pages:
+      - run: npx cypress run --config baseUrl=https://lucianocastr.github.io/ticketeraTesis/
+      - run: npx mochawesome-merge reports/mochawesome/*.json | npx mrg --reportDir reports/html --inline
+      # Publicá artefactos (HTML, JUnit, screenshots y videos)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cypress-reports
+          path: |
+            reports/html
+            reports/junit
+            cypress/screenshots
+            cypress/videos
