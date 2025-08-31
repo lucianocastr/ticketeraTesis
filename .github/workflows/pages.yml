@@ -45,7 +45,9 @@ jobs:
       - run: npm ci
       # Forzamos baseUrl al sitio ya publicado en Pages:
       - run: npx cypress run --config baseUrl=https://lucianocastr.github.io/ticketeraTesis/ --spec "cypress/e2e/checkout.happy.cy.js"
-      - run: npx mochawesome-merge reports/mochawesome/*.json | npx mrg --reportDir reports/html --inline
+      - run: mkdir -p reports/html
+      - run: npx mochawesome-merge reports/mochawesome/*.json -o reports/merged.json
+      - run: npx mochawesome-report-generator reports/merged.json -o reports/html --inline -f index
       # Publicá artefactos (HTML, JUnit, screenshots y videos)
       - uses: actions/upload-artifact@v4
         with:
