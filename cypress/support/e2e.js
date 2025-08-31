@@ -15,3 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+// Fuerza cy.visit a NO fallar por 404 de GitHub Pages (SPA fallback)
+Cypress.Commands.overwrite('visit', (originalFn, url, options = {}) => {
+  return originalFn(url, { failOnStatusCode: false, ...options });
+});
