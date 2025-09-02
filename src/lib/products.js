@@ -1,9 +1,15 @@
-// src/lib/products.js (ejemplo con stock)
+// src/lib/products.js
+// src/lib/products.js
+import generalPng from '../assets/general.png';
+import vipJpg     from '../assets/ticketVIP.jpg';
+import famPng    from '../assets/ticketFamiliar.png';
+
 export const products = [
-  { id: 1, nombre: "Entrada General", precio: 5000, imagen: "/img/general.png", stock: 50 },
-  { id: 2, nombre: "Entrada VIP", precio: 12000, imagen: "/img/ticketVIP.jpg", stock: 20 },
-  { id: 3, nombre: "Pack Familiar", precio: 20000, imagen: "/img/ticketFamiliar.png", stock: 10 },
+  { id: 1, nombre: "Entrada General", precio: 5000,  imagen: generalPng, stock: 50 },
+  { id: 2, nombre: "Entrada VIP",     precio: 12000, imagen: vipJpg,     stock: 20 },
+  { id: 3, nombre: "Pack Familiar",   precio: 20000, imagen: famPng,      stock: 10 },
 ];
+
 
 // Helpers de stock
 export function getProductById(id) { return products.find(p => p.id === Number(id)); }

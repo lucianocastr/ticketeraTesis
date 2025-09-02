@@ -5,6 +5,8 @@ it('Agrega ticket y luego vacía el carrito', () => {
       const { email, password } = users[0];
 
       cy.visit('/login');
+                cy.get('.bg-blue-600').click()
+
       cy.get('[data-testid="input-email"]').type(email);        // Login.jsx
       cy.get('[data-testid="input-password"]').type(password);  // Login.jsx
       cy.get('[data-testid="btn-login"]').click();              // Login.jsx
