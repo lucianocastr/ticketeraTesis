@@ -4,13 +4,14 @@ on:
   push:
     branches: [ main ]
 
-# Evita colas infinitas si hay varios commits seguidos
+# Evita colas infinitas si hay varios commits
 concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
+  issues: write         # 👈 necesario para cerrar issues desde el workflow
   pages: write
   id-token: write
 
@@ -39,7 +40,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    # 👉 exponemos la URL para usarla en e2e
     outputs:
       page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
@@ -53,13 +53,18 @@ jobs:
       BASE_URL: ${{ needs.deploy.outputs.page_url }}
       CI: true
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      ISSUE_NUMBER: 1   # 👈 reemplazá por el número del issue vinculado
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20.19
           cache: 'npm'
+
       - run: npm ci
+
+      # Cache de binarios de Cypress para acelerar
       - name: Cache Cypress
         uses: actions/cache@v4
         with:
@@ -67,11 +72,17 @@ jobs:
           key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             cypress-${{ runner.os }}-
+
+      # E2E grabando en Cypress Cloud
       - name: Run Cypress (record)
         run: npx cypress run --record --key "$CYPRESS_RECORD_KEY" --config baseUrl=${BASE_URL} --spec "cypress/e2e/checkout.happy.cy.js"
+
+      # Reporte Mochawesome
       - run: mkdir -p reports/html
       - run: npx mochawesome-merge reports/mochawesome/*.json -o reports/merged.json
       - run: npx mochawesome-report-generator reports/merged.json -o reports/html --inline -f index
+
+      # Subir artefactos SIEMPRE (pase o falle)
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -82,3 +93,19 @@ jobs:
             cypress/screenshots
             cypress/videos
           retention-days: 14
+
+      # Comentario en el issue con los resultados
+      - name: Comment results on issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment $ISSUE_NUMBER --body $'🚦 E2E finalizado en workflow #${{ github.run_number }}.\n\n• Cypress Cloud (proyecto): https://cloud.cypress.io/projects/mfnt8h/runs\n• Reporte Mochawesome: ver Artifacts de esta corrida en Actions.'
+
+      # Cerrar issue si TODO OK (mueve la tarjeta a Done por tu workflow de Projects)
+      - name: Close issue when tests pass
+        if: success()     # 👈 si querés cerrarlo siempre, cambiá a: if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue close $ISSUE_NUMBER --comment "✅ Pruebas E2E OK en workflow #${{ github.run_number }}. Tarjeta movida a Done."
