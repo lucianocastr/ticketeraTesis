@@ -4,14 +4,14 @@ on:
   push:
     branches: [ main ]
 
-# Evita colas infinitas si hay varios commits
+# Evita colas si hay varios commits
 concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
-  issues: write         # 👈 necesario para cerrar issues desde el workflow
+  issues: write
   pages: write
   id-token: write
 
@@ -53,7 +53,7 @@ jobs:
       BASE_URL: ${{ needs.deploy.outputs.page_url }}
       CI: true
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      ISSUE_NUMBER: 1   # 👈 reemplazá por el número del issue vinculado
+      ISSUE_NUMBER: 2   # 👈 reemplazá por el número del issue vinculado
     steps:
       - uses: actions/checkout@v4
 
@@ -64,7 +64,7 @@ jobs:
 
       - run: npm ci
 
-      # Cache de binarios de Cypress para acelerar
+      # Cache binarios de Cypress
       - name: Cache Cypress
         uses: actions/cache@v4
         with:
@@ -94,17 +94,53 @@ jobs:
             cypress/videos
           retention-days: 14
 
-      # Comentario en el issue con los resultados
+      # Asegurar que existan labels (idempotente)
+      - name: Ensure labels exist
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "e2e-pass" --color 0E8A16 --description "E2E pipeline passed" || true
+          gh label create "e2e-fail" --color D93F0B --description "E2E pipeline failed" || true
+
+      # Etiquetar según resultado
+      - name: Label issue as PASS
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh issue edit $ISSUE_NUMBER --add-label "e2e-pass"
+
+      - name: Label issue as FAIL
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh issue edit $ISSUE_NUMBER --add-label "e2e-fail"
+
+      # Comentar resultados en el issue (siempre)
       - name: Comment results on issue
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh issue comment $ISSUE_NUMBER --body $'🚦 E2E finalizado en workflow #${{ github.run_number }}.\n\n• Cypress Cloud (proyecto): https://cloud.cypress.io/projects/mfnt8h/runs\n• Reporte Mochawesome: ver Artifacts de esta corrida en Actions.'
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          cat << 'EOF' > body.txt
+          🚦 Ejecución E2E finalizada
 
-      # Cerrar issue si TODO OK (mueve la tarjeta a Done por tu workflow de Projects)
+          • ✅ Workflow (Actions): RUN_URL
+          • 🌐 Base URL del deploy: BASE_URL
+          • 📊 Cypress Cloud (proyecto): https://cloud.cypress.io/projects/mfnt8h/runs
+          • 📎 Artifact Mochawesome: ver "cypress-reports" en la corrida de Actions
+
+          Commit: ${{ github.sha }}
+          EOF
+          # Reemplazos simples
+          sed -i "s|RUN_URL|$RUN_URL|g" body.txt
+          sed -i "s|BASE_URL|$BASE_URL|g" body.txt
+          gh issue comment $ISSUE_NUMBER --body-file body.txt
+
+      # Cerrar issue cuando los tests pasan (mueve la tarjeta a Done por Project workflow)
       - name: Close issue when tests pass
-        if: success()     # 👈 si querés cerrarlo siempre, cambiá a: if: always()
+        if: success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
