@@ -50,20 +50,16 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     env:
-      # usamos la URL que dejó el job deploy
       BASE_URL: ${{ needs.deploy.outputs.page_url }}
       CI: true
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20.19
           cache: 'npm'
-
       - run: npm ci
-
-      # Cache binarios de Cypress para acelerar
       - name: Cache Cypress
         uses: actions/cache@v4
         with:
@@ -71,15 +67,11 @@ jobs:
           key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             cypress-${{ runner.os }}-
-
-      # Forzamos baseUrl al sitio publicado (dinámico)
-      - run: npx cypress run --config baseUrl=${BASE_URL} --spec "cypress/e2e/checkout.happy.cy.js"
-
+      - name: Run Cypress (record)
+        run: npx cypress run --record --key "$CYPRESS_RECORD_KEY" --config baseUrl=${BASE_URL} --spec "cypress/e2e/checkout.happy.cy.js"
       - run: mkdir -p reports/html
       - run: npx mochawesome-merge reports/mochawesome/*.json -o reports/merged.json
       - run: npx mochawesome-report-generator reports/merged.json -o reports/html --inline -f index
-
-      # Subir artefactos SIEMPRE (pase o falle)
       - uses: actions/upload-artifact@v4
         if: always()
         with:

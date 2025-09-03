@@ -1,5 +1,6 @@
 const { defineConfig } = require('cypress');
 module.exports = defineConfig({
+    projectId: "mfnt8h",
   e2e: {
     baseUrl: 'https://lucianocastr.github.io/ticketeraTesis/',
     video: true,
@@ -12,8 +13,8 @@ module.exports = defineConfig({
     mochawesomeReporterOptions: {
       reportDir: 'reports/mochawesome',
       overwrite: false,
-      html: false,           // 👈 HTML off aquí
-      json: true,            // 👈 JSON on para merge
+      html: false,           
+      json: true,            
       reportFilename: 'report-[datetime]',
       charts: true,
     },
