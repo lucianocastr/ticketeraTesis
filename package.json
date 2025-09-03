@@ -12,8 +12,8 @@
     "cy:run": "cypress run",
     "test:e2e:dev": "start-server-and-test dev http://localhost:5173 cy:run",
     "test:e2e:preview": "start-server-and-test preview http://localhost:5173 cy:run",
-    "cy:report": "mochawesome-merge reports/mochawesome/*.json | mrg --reportDir reports/html --inline",
-    "test:e2e": "npm run cy:run && npm run cy:report"
+    "cy:report": "npx mochawesome-merge reports/mochawesome/*.json -o reports/merged.json && npx mochawesome-report-generator reports/merged.json -o reports/html --inline -f index",
+    "test:e2e": "npm run cy:run:happy && npm run cy:report"
   },
   "dependencies": {
     "react": "^19.1.1",

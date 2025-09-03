@@ -1,13 +1,10 @@
 const { defineConfig } = require('cypress');
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'https://lucianocastr.github.io/ticketeraTesis/', // Pages
+    baseUrl: 'https://lucianocastr.github.io/ticketeraTesis/',
     video: true,
     screenshotsFolder: 'cypress/screenshots',
     videosFolder: 'cypress/videos',
-    setupNodeEvents(on, config) {
-      // nada especial por ahora
-    },
   },
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
@@ -15,8 +12,8 @@ module.exports = defineConfig({
     mochawesomeReporterOptions: {
       reportDir: 'reports/mochawesome',
       overwrite: false,
-      html: true,
-      json: true,
+      html: false,           // 👈 HTML off aquí
+      json: true,            // 👈 JSON on para merge
       reportFilename: 'report-[datetime]',
       charts: true,
     },
