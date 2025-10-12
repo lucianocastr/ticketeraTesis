@@ -75,7 +75,9 @@ jobs:
 
       # E2E grabando en Cypress Cloud
       - name: Run Cypress (record)
-        run: npx cypress run --record --key "$CYPRESS_RECORD_KEY" --config baseUrl=${BASE_URL} --spec "cypress/e2e/checkout.happy.cy.js"
+        run: npm run cy:run:all -- --record --key "$CYPRESS_RECORD_KEY" --config baseUrl=${BASE_URL}
+
+
 
       # Reporte Mochawesome
       - run: mkdir -p reports/html

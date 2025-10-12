@@ -3,6 +3,7 @@ module.exports = defineConfig({
     projectId: "mfnt8h",
   e2e: {
     baseUrl: 'https://lucianocastr.github.io/ticketeraTesis/',
+    specPattern: 'cypress/e2e/**/*.cy.{js,ts}',
     video: true,
     screenshotsFolder: 'cypress/screenshots',
     videosFolder: 'cypress/videos',

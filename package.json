@@ -10,10 +10,12 @@
     "preview": "vite preview --port 5173 --strictPort",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "cy:run:all": "cypress run --spec 'cypress/e2e/**/*.cy.{js,ts}'",
+    "cy:run:happy": "cypress run --spec 'cypress/e2e/checkout.happy.cy.js'",
     "test:e2e:dev": "start-server-and-test dev http://localhost:5173 cy:run",
     "test:e2e:preview": "start-server-and-test preview http://localhost:5173 cy:run",
     "cy:report": "npx mochawesome-merge reports/mochawesome/*.json -o reports/merged.json && npx mochawesome-report-generator reports/merged.json -o reports/html --inline -f index",
-    "test:e2e": "npm run cy:run:happy && npm run cy:report"
+    "test:e2e": "npm run cy:run:all && npm run cy:report"
   },
   "dependencies": {
     "react": "^19.1.1",
