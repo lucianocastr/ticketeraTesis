@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Cypress E2E Suite" time="2.919" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-10-27T02:30:44" tests="0" file="cypress\e2e\catalog.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Valida que luego del login encuentre el catalogo disponible" timestamp="2025-10-27T02:30:44" tests="1" time="2.915" failures="0">
+    <testcase name="Valida que luego del login encuentre el catalogo disponible Catalogo disponible luego de login" time="2.725" classname="Catalogo disponible luego de login">
+    </testcase>
+  </testsuite>
+</testsuites>

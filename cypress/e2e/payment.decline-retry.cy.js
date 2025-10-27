@@ -4,6 +4,8 @@ describe('Pago: rechazado → reintento aprobado (flujo por UI)', () => {
     // === LOGIN === (usa usuario real del proyecto)
     cy.readFile('src/data/usuarios.json').then(({ 0: { email, password } }) => {
       cy.visit('/login');
+                  cy.get('.bg-blue-600').click()
+
       cy.get('[data-testid="input-email"]').type(email);        // Login.jsx
       cy.get('[data-testid="input-password"]').type(password);  // Login.jsx
       cy.get('[data-testid="btn-login"]').click();              // Login.jsx

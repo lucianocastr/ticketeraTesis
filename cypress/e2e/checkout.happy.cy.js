@@ -6,6 +6,7 @@ describe('Flujo completo: login → catálogo → carrito → checkout → confi
       const { email, password } = users[0];
 
       cy.visit('/login');
+          cy.get('.text-sm > [href="/login"]').click()
       cy.get('body').then($body => {
       // ¿ya está el formulario?
       if ($body.find('[data-testid="input-email"]').length === 0) {
@@ -14,12 +15,13 @@ describe('Flujo completo: login → catálogo → carrito → checkout → confi
         cy.get('a[href$="login"]').first().click({ force: true });
       }
     });
-      cy.get('[data-testid="input-email"]').type(email);        // Login.jsx
-      cy.get('[data-testid="input-password"]').type(password);  // Login.jsx
-      cy.get('[data-testid="btn-login"]').click();              // Login.jsx
+
+      cy.get('[data-testid="input-email"]').type(email);
+      cy.get('[data-testid="input-password"]').type(password);
+      cy.get('[data-testid="btn-login"]').click();
 
       // Redirección a Catálogo confirmada por URL o título
-      cy.url().should('include', '/catalogo');                  // Catalogo.jsx
+      cy.url().should('include', '/catalogo');
       cy.contains('h1', 'Catálogo').should('be.visible');
 
       // === CATÁLOGO: tomar nombre del primer ticket y agregarlo ===
@@ -28,26 +30,26 @@ describe('Flujo completo: login → catálogo → carrito → checkout → confi
           .should('be.visible')
           .invoke('text')
           .then((t) => cy.wrap(t.trim()).as('ticketName'));
-        cy.get('button[data-testid^="btn-add-"]').click();      // solo el botón
+        cy.get('button[data-testid^="btn-add-"]').click();
       });
 
       // toast de agregado
-      cy.get('[data-testid="toast-added"]').should('be.visible'); // Catalogo.jsx
+      cy.get('[data-testid="toast-added"]').should('be.visible');
 
       // === MENÚ: ir a CARRITO (sin visit) ===
-      cy.get('a[href="/carrito"]').first().click();             // link del layout
+      cy.get('a[href="/carrito"]').first().click();
 
       // === CARRITO: validar que está el producto ===
-      cy.get('[data-testid="carrito-page"]').should('be.visible');      // Carrito.jsx
+      cy.get('[data-testid="carrito-page"]').should('be.visible');
       cy.get('@ticketName').then((name) => {
         cy.get('[data-testid="carrito-lista"]').should('contain', name);
       });
 
       // Ir a checkout por el link "Ir a checkout"
-      cy.contains('a', 'Ir a checkout').click();                // Carrito.jsx
+      cy.contains('a', 'Ir a checkout').click(); 
 
       // === CHECKOUT: validar resumen y completar datos ===
-      cy.get('[data-testid="checkout-form"]').should('be.visible');     // Checkout.jsx
+      cy.get('[data-testid="checkout-form"]').should('be.visible');
       cy.get('@ticketName').then((name) => {
         cy.contains('aside', 'Resumen').should('contain', name);
       });
@@ -66,7 +68,7 @@ describe('Flujo completo: login → catálogo → carrito → checkout → confi
       cy.get('[data-testid="btn-pay"]').click();
 
       // === CONFIRMACIÓN: textos y nombre del ticket ===
-      cy.get('[data-testid="confirmacion-page"]').should('be.visible');  // Confirmacion.jsx
+      cy.get('[data-testid="confirmacion-page"]').should('be.visible');
       cy.contains('¡Compra confirmada!').should('be.visible');
       cy.contains('Tu orden fue registrada correctamente. Abajo están los detalles.')
         .should('be.visible');

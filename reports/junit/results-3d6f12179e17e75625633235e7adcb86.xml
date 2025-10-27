@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Cypress E2E Suite" time="3.596" tests="2" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-10-27T02:30:30" tests="0" file="cypress\e2e\auth.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Auth: login OK e inválido" timestamp="2025-10-27T02:30:30" tests="2" time="3.593" failures="0">
+    <testcase name="Auth: login OK e inválido login correcto redirige a /catalogo" time="2.433" classname="login correcto redirige a /catalogo">
+    </testcase>
+    <testcase name="Auth: login OK e inválido login inválido muestra error y no redirige" time="1.045" classname="login inválido muestra error y no redirige">
+    </testcase>
+  </testsuite>
+</testsuites>

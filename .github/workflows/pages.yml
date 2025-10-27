@@ -53,7 +53,7 @@ jobs:
       BASE_URL: ${{ needs.deploy.outputs.page_url }}
       CI: true
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      ISSUE_NUMBER: 2   # 👈 reemplazá por el número del issue vinculado
+      ISSUE_NUMBER: 3   # número del issue vinculado
     steps:
       - uses: actions/checkout@v4
 

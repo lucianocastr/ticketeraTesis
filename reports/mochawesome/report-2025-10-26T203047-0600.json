@@ -1,0 +1,108 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-10-27T02:30:44.473Z",
+    "end": "2025-10-27T02:30:47.392Z",
+    "duration": 2919,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "00ddc46d-8588-4b47-ba63-ee5a5fbce8d3",
+      "title": "",
+      "fullFile": "cypress\\e2e\\catalog.cy.js",
+      "file": "cypress\\e2e\\catalog.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "430e6c0d-a6f2-43be-be99-eb95a44268b5",
+          "title": "Valida que luego del login encuentre el catalogo disponible",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Catalogo disponible luego de login",
+              "fullTitle": "Valida que luego del login encuentre el catalogo disponible Catalogo disponible luego de login",
+              "timedOut": null,
+              "duration": 2725,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// === LOGIN ===\ncy.readFile('src/data/usuarios.json').then(users => {\n  const {\n    email,\n    password\n  } = users[0];\n  cy.visit('/login');\n  cy.get('.bg-blue-600').click();\n  cy.wait(1000);\n  cy.get('[data-testid=\"input-email\"]').type(email);\n  cy.get('[data-testid=\"input-password\"]').type(password);\n  cy.get('[data-testid=\"btn-login\"]').click();\n  // Redirección a Catálogo confirmada por URL o título\n  cy.url().should('include', '/catalogo');\n  cy.contains('h1', 'Catálogo').should('be.visible');\n});\ncy.get('button[data-testid^=\"btn-add-\"]').first().click();\ncy.get('[data-testid=\"toast-added\"][role=\"status\"]').should('be.visible');",
+              "err": {},
+              "uuid": "1429ddff-4ba9-4dd1-9d1d-7adb07f837d9",
+              "parentUUID": "430e6c0d-a6f2-43be-be99-eb95a44268b5",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "1429ddff-4ba9-4dd1-9d1d-7adb07f837d9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2725,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "report-[datetime]",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "reports/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "reportFilename": "report-[datetime]",
+        "charts": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

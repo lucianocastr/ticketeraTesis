@@ -7,12 +7,12 @@ it('Agrega ticket y luego vacía el carrito', () => {
       cy.visit('/login');
                 cy.get('.bg-blue-600').click()
 
-      cy.get('[data-testid="input-email"]').type(email);        // Login.jsx
-      cy.get('[data-testid="input-password"]').type(password);  // Login.jsx
-      cy.get('[data-testid="btn-login"]').click();              // Login.jsx
+      cy.get('[data-testid="input-email"]').type(email);
+      cy.get('[data-testid="input-password"]').type(password);
+      cy.get('[data-testid="btn-login"]').click();
 
       // Redirección a Catálogo confirmada por URL o título
-      cy.url().should('include', '/catalogo');                  // Catalogo.jsx
+      cy.url().should('include', '/catalogo'); 
       cy.contains('h1', 'Catálogo').should('be.visible');
 
       // === CATÁLOGO: tomar nombre del primer ticket y agregarlo ===
@@ -21,17 +21,17 @@ it('Agrega ticket y luego vacía el carrito', () => {
           .should('be.visible')
           .invoke('text')
           .then((t) => cy.wrap(t.trim()).as('ticketName'));
-        cy.get('button[data-testid^="btn-add-"]').click();      // solo el botón
+        cy.get('button[data-testid^="btn-add-"]').click();
       });
 
       // toast de agregado
-      cy.get('[data-testid="toast-added"]').should('be.visible'); // Catalogo.jsx
+      cy.get('[data-testid="toast-added"]').should('be.visible');
 
       // === MENÚ: ir a CARRITO (sin visit) ===
-      cy.get('a[href="/carrito"]').first().click();             // link del layout
+      cy.get('a[href="/carrito"]').first().click();
 
       // === CARRITO: validar que está el producto ===
-      cy.get('[data-testid="carrito-page"]').should('be.visible');      // Carrito.jsx
+      cy.get('[data-testid="carrito-page"]').should('be.visible'); 
       cy.get('@ticketName').then((name) => {
         cy.get('[data-testid="carrito-lista"]').should('contain', name);
       });
@@ -39,7 +39,7 @@ it('Agrega ticket y luego vacía el carrito', () => {
 
     })
   cy.get('a[href="/carrito"]').click()
-  cy.get('[data-testid="carrito-lista"]').should('contain', 'Entrada') // nombre capturado antes
+  cy.get('[data-testid="carrito-lista"]').should('contain', 'Entrada')
   cy.get('[data-testid="carrito-limpiar"]').click()
   cy.get('[data-testid="carrito-vacio"]').should('be.visible')
 })

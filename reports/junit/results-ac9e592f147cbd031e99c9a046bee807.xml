@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Cypress E2E Suite" time="6.195" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-10-27T02:31:02" tests="0" file="cypress\e2e\payment.decline-retry.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Pago: rechazado → reintento aprobado (flujo por UI)" timestamp="2025-10-27T02:31:02" tests="1" time="6.183" failures="0">
+    <testcase name="Pago: rechazado → reintento aprobado (flujo por UI) login → catálogo → carrito → checkout: decline y reintento ok" time="5.997" classname="login → catálogo → carrito → checkout: decline y reintento ok">
+    </testcase>
+  </testsuite>
+</testsuites>

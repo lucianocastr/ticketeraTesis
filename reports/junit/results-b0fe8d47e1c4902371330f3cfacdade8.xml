@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Cypress E2E Suite" time="5.445" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-10-27T02:30:52" tests="0" file="cypress\e2e\checkout.happy.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Flujo completo: login → catálogo → carrito → checkout → confirmación" timestamp="2025-10-27T02:30:52" tests="1" time="5.438" failures="0">
+    <testcase name="Flujo completo: login → catálogo → carrito → checkout → confirmación valida ítems y completa compra aprobada" time="5.364" classname="valida ítems y completa compra aprobada">
+    </testcase>
+  </testsuite>
+</testsuites>

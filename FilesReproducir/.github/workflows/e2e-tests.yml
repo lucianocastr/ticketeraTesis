@@ -1,0 +1,57 @@
+name: E2E Tests (Cypress)
+
+on:
+  push: { branches: [ main, master ] }
+  pull_request: { branches: [ main, master ] }
+  workflow_dispatch:
+
+jobs:
+  cypress-e2e:
+    runs-on: ubuntu-24.04  # WHY: alinea con runner real
+
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Restore Cypress cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: cypress-${{ runner.os }}-
+
+      - name: Install
+        run: npm ci
+
+      - name: Verify Cypress binary
+        run: npx cypress verify
+
+      - name: Run E2E (record if key present)
+        run: |
+          if [ -n "${{ secrets.CYPRESS_RECORD_KEY }}" ]; then
+            npx cypress run --record --key "${{ secrets.CYPRESS_RECORD_KEY }}"
+          else:
+            npx cypress run
+          fi
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts-${{ github.run_id }}
+          path: |
+            cypress/screenshots
+            cypress/videos
+          if-no-files-found: ignore

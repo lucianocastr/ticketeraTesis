@@ -7,12 +7,12 @@ it('Catalogo disponible luego de login', () => {
       cy.visit('/login');
                       cy.get('.bg-blue-600').click()
 cy.wait(1000)
-      cy.get('[data-testid="input-email"]').type(email);        // Login.jsx
-      cy.get('[data-testid="input-password"]').type(password);  // Login.jsx
-      cy.get('[data-testid="btn-login"]').click();              // Login.jsx
+      cy.get('[data-testid="input-email"]').type(email);
+      cy.get('[data-testid="input-password"]').type(password);
+      cy.get('[data-testid="btn-login"]').click();
 
       // Redirección a Catálogo confirmada por URL o título
-      cy.url().should('include', '/catalogo');                  // Catalogo.jsx
+      cy.url().should('include', '/catalogo');
       cy.contains('h1', 'Catálogo').should('be.visible');
       });
 

@@ -1,0 +1,417 @@
+{
+  "stats": {
+    "suites": 6,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "testsRegistered": 7,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2025-10-27T02:30:30.436Z",
+    "end": "2025-10-27T02:31:17.861Z",
+    "duration": 47425
+  },
+  "results": [
+    {
+      "uuid": "09f88e9e-ed82-4161-87a8-77893ffd374e",
+      "title": "",
+      "fullFile": "cypress\\e2e\\auth.cy.js",
+      "file": "cypress\\e2e\\auth.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "9b2fa0f4-5863-4e18-9688-8cb71ad27770",
+          "title": "Auth: login OK e inválido",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "login correcto redirige a /catalogo",
+              "fullTitle": "Auth: login OK e inválido login correcto redirige a /catalogo",
+              "timedOut": null,
+              "duration": 2433,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.readFile('src/data/usuarios.json').then(({\n  0: u\n}) => {\n  cy.visit('/login');\n  cy.get('.bg-blue-600').click();\n  cy.get('[data-testid=\"input-email\"]').type(u.email);\n  cy.get('[data-testid=\"input-password\"]').type(u.password);\n  cy.get('[data-testid=\"btn-login\"]').click();\n  cy.url().should('include', '/catalogo');\n});",
+              "err": {},
+              "uuid": "f2b33f2a-19e8-4bb0-b179-da30fa43ee19",
+              "parentUUID": "9b2fa0f4-5863-4e18-9688-8cb71ad27770",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "login inválido muestra error y no redirige",
+              "fullTitle": "Auth: login OK e inválido login inválido muestra error y no redirige",
+              "timedOut": null,
+              "duration": 1045,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/login');\ncy.get('.bg-blue-600').click();\ncy.get('[data-testid=\"input-email\"]').type('no@existe.com');\ncy.get('[data-testid=\"input-password\"]').type('xxx');\ncy.get('[data-testid=\"btn-login\"]').click();\ncy.get('[data-testid=\"login-error\"]').should('contain', 'Credenciales inválidas');\ncy.url().should('include', '/login');",
+              "err": {},
+              "uuid": "d8058948-2016-4f3e-8c3e-31b5ba88ca8e",
+              "parentUUID": "9b2fa0f4-5863-4e18-9688-8cb71ad27770",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f2b33f2a-19e8-4bb0-b179-da30fa43ee19",
+            "d8058948-2016-4f3e-8c3e-31b5ba88ca8e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 3478,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "215a91a3-4fb7-4972-9706-f863cd8bf54f",
+      "title": "",
+      "fullFile": "cypress\\e2e\\cart.cy.js",
+      "file": "cypress\\e2e\\cart.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "a7f71825-13a1-429e-a432-c2b23903d4ca",
+          "title": "Valida que los datos de la compran se vean en el carrito",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Agrega ticket y luego vacía el carrito",
+              "fullTitle": "Valida que los datos de la compran se vean en el carrito Agrega ticket y luego vacía el carrito",
+              "timedOut": null,
+              "duration": 2545,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// === LOGIN ===\ncy.readFile('src/data/usuarios.json').then(users => {\n  const {\n    email,\n    password\n  } = users[0];\n  cy.visit('/login');\n  cy.get('.bg-blue-600').click();\n  cy.get('[data-testid=\"input-email\"]').type(email);\n  cy.get('[data-testid=\"input-password\"]').type(password);\n  cy.get('[data-testid=\"btn-login\"]').click();\n  // Redirección a Catálogo confirmada por URL o título\n  cy.url().should('include', '/catalogo');\n  cy.contains('h1', 'Catálogo').should('be.visible');\n  // === CATÁLOGO: tomar nombre del primer ticket y agregarlo ===\n  cy.get('[data-testid^=\"card-\"]').first().within(() => {\n    cy.get('h3').should('be.visible').invoke('text').then(t => cy.wrap(t.trim()).as('ticketName'));\n    cy.get('button[data-testid^=\"btn-add-\"]').click();\n  });\n  // toast de agregado\n  cy.get('[data-testid=\"toast-added\"]').should('be.visible');\n  // === MENÚ: ir a CARRITO (sin visit) ===\n  cy.get('a[href=\"/carrito\"]').first().click();\n  // === CARRITO: validar que está el producto ===\n  cy.get('[data-testid=\"carrito-page\"]').should('be.visible');\n  cy.get('@ticketName').then(name => {\n    cy.get('[data-testid=\"carrito-lista\"]').should('contain', name);\n  });\n});\ncy.get('a[href=\"/carrito\"]').click();\ncy.get('[data-testid=\"carrito-lista\"]').should('contain', 'Entrada');\ncy.get('[data-testid=\"carrito-limpiar\"]').click();\ncy.get('[data-testid=\"carrito-vacio\"]').should('be.visible');",
+              "err": {},
+              "uuid": "fa34e88e-6459-42ab-a9d3-fe81a51964fc",
+              "parentUUID": "a7f71825-13a1-429e-a432-c2b23903d4ca",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "fa34e88e-6459-42ab-a9d3-fe81a51964fc"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2545,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "00ddc46d-8588-4b47-ba63-ee5a5fbce8d3",
+      "title": "",
+      "fullFile": "cypress\\e2e\\catalog.cy.js",
+      "file": "cypress\\e2e\\catalog.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "430e6c0d-a6f2-43be-be99-eb95a44268b5",
+          "title": "Valida que luego del login encuentre el catalogo disponible",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Catalogo disponible luego de login",
+              "fullTitle": "Valida que luego del login encuentre el catalogo disponible Catalogo disponible luego de login",
+              "timedOut": null,
+              "duration": 2725,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// === LOGIN ===\ncy.readFile('src/data/usuarios.json').then(users => {\n  const {\n    email,\n    password\n  } = users[0];\n  cy.visit('/login');\n  cy.get('.bg-blue-600').click();\n  cy.wait(1000);\n  cy.get('[data-testid=\"input-email\"]').type(email);\n  cy.get('[data-testid=\"input-password\"]').type(password);\n  cy.get('[data-testid=\"btn-login\"]').click();\n  // Redirección a Catálogo confirmada por URL o título\n  cy.url().should('include', '/catalogo');\n  cy.contains('h1', 'Catálogo').should('be.visible');\n});\ncy.get('button[data-testid^=\"btn-add-\"]').first().click();\ncy.get('[data-testid=\"toast-added\"][role=\"status\"]').should('be.visible');",
+              "err": {},
+              "uuid": "1429ddff-4ba9-4dd1-9d1d-7adb07f837d9",
+              "parentUUID": "430e6c0d-a6f2-43be-be99-eb95a44268b5",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "1429ddff-4ba9-4dd1-9d1d-7adb07f837d9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2725,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "e7809191-5b1b-415c-9a48-2da72696f62d",
+      "title": "",
+      "fullFile": "cypress\\e2e\\checkout.happy.cy.js",
+      "file": "cypress\\e2e\\checkout.happy.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "10626615-ab5f-4c48-86a0-c07886755aea",
+          "title": "Flujo completo: login → catálogo → carrito → checkout → confirmación",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "valida ítems y completa compra aprobada",
+              "fullTitle": "Flujo completo: login → catálogo → carrito → checkout → confirmación valida ítems y completa compra aprobada",
+              "timedOut": null,
+              "duration": 5364,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// === LOGIN ===\ncy.readFile('src/data/usuarios.json').then(users => {\n  const {\n    email,\n    password\n  } = users[0];\n  cy.visit('/login');\n  cy.get('.text-sm > [href=\"/login\"]').click();\n  cy.get('body').then($body => {\n    // ¿ya está el formulario?\n    if ($body.find('[data-testid=\"input-email\"]').length === 0) {\n      // plan B: click al link de Login en el header (ancla o Link)\n      // - intenta selector por href que termina en 'login'\n      cy.get('a[href$=\"login\"]').first().click({\n        force: true\n      });\n    }\n  });\n  cy.get('[data-testid=\"input-email\"]').type(email);\n  cy.get('[data-testid=\"input-password\"]').type(password);\n  cy.get('[data-testid=\"btn-login\"]').click();\n  // Redirección a Catálogo confirmada por URL o título\n  cy.url().should('include', '/catalogo');\n  cy.contains('h1', 'Catálogo').should('be.visible');\n  // === CATÁLOGO: tomar nombre del primer ticket y agregarlo ===\n  cy.get('[data-testid^=\"card-\"]').first().within(() => {\n    cy.get('h3').should('be.visible').invoke('text').then(t => cy.wrap(t.trim()).as('ticketName'));\n    cy.get('button[data-testid^=\"btn-add-\"]').click();\n  });\n  // toast de agregado\n  cy.get('[data-testid=\"toast-added\"]').should('be.visible');\n  // === MENÚ: ir a CARRITO (sin visit) ===\n  cy.get('a[href=\"/carrito\"]').first().click();\n  // === CARRITO: validar que está el producto ===\n  cy.get('[data-testid=\"carrito-page\"]').should('be.visible');\n  cy.get('@ticketName').then(name => {\n    cy.get('[data-testid=\"carrito-lista\"]').should('contain', name);\n  });\n  // Ir a checkout por el link \"Ir a checkout\"\n  cy.contains('a', 'Ir a checkout').click();\n  // === CHECKOUT: validar resumen y completar datos ===\n  cy.get('[data-testid=\"checkout-form\"]').should('be.visible');\n  cy.get('@ticketName').then(name => {\n    cy.contains('aside', 'Resumen').should('contain', name);\n  });\n  // Comprador\n  cy.get('[data-testid=\"inp-nombre\"]').type('Luciano QA');\n  cy.get('[data-testid=\"inp-email\"]').type('luciano.qa@example.com');\n  cy.get('[data-testid=\"inp-dni\"]').type('30123456');\n  // Tarjeta (aprobada para llegar a confirmación)\n  cy.get('[data-testid=\"inp-card\"]').type('4242 4242 4242 4242');\n  cy.get('[data-testid=\"inp-exp\"]').type('12/30');\n  cy.get('[data-testid=\"inp-cvc\"]').type('123');\n  // Confirmar compra\n  cy.get('[data-testid=\"btn-pay\"]').click();\n  // === CONFIRMACIÓN: textos y nombre del ticket ===\n  cy.get('[data-testid=\"confirmacion-page\"]').should('be.visible');\n  cy.contains('¡Compra confirmada!').should('be.visible');\n  cy.contains('Tu orden fue registrada correctamente. Abajo están los detalles.').should('be.visible');\n  cy.get('@ticketName').then(name => {\n    cy.get('[data-testid=\"orden-items\"]').should('contain', name);\n  });\n});",
+              "err": {},
+              "uuid": "8c52561c-f8b9-4f56-9b90-91121b968a11",
+              "parentUUID": "10626615-ab5f-4c48-86a0-c07886755aea",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "8c52561c-f8b9-4f56-9b90-91121b968a11"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5364,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "5b5cd377-5a4a-495c-9a4b-994fdf62858a",
+      "title": "",
+      "fullFile": "cypress\\e2e\\payment.decline-retry.cy.js",
+      "file": "cypress\\e2e\\payment.decline-retry.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "42f5da26-de6d-4a5c-8b21-31b545eb5530",
+          "title": "Pago: rechazado → reintento aprobado (flujo por UI)",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "login → catálogo → carrito → checkout: decline y reintento ok",
+              "fullTitle": "Pago: rechazado → reintento aprobado (flujo por UI) login → catálogo → carrito → checkout: decline y reintento ok",
+              "timedOut": null,
+              "duration": 5997,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// === LOGIN === (usa usuario real del proyecto)\ncy.readFile('src/data/usuarios.json').then(({\n  0: {\n    email,\n    password\n  }\n}) => {\n  cy.visit('/login');\n  cy.get('.bg-blue-600').click();\n  cy.get('[data-testid=\"input-email\"]').type(email); // Login.jsx\n  cy.get('[data-testid=\"input-password\"]').type(password); // Login.jsx\n  cy.get('[data-testid=\"btn-login\"]').click(); // Login.jsx\n  cy.url().should('include', '/catalogo'); // redirige al catálogo\n  // === STUB de pagos: 1° declined, 2° approved (usa hook de Checkout.jsx) ===\n  cy.window().then(win => {\n    win.__TEST_PAY__ = {\n      charge: cy.stub().onFirstCall().resolves({\n        status: 'declined',\n        reason: 'card_declined'\n      }).onSecondCall().resolves({\n        status: 'approved',\n        id: 'pay_123'\n      })\n    };\n  });\n  // === CATÁLOGO: guardar nombre del primer ticket y agregarlo ===\n  cy.contains('h1', 'Catálogo').should('be.visible'); // Catalogo.jsx\n  cy.get('[data-testid^=\"card-\"]').first().within(() => {\n    cy.get('h3').invoke('text').then(t => cy.wrap(t.trim()).as('ticketName'));\n    cy.get('button[data-testid^=\"btn-add-\"]').click(); // solo el botón\n  });\n  cy.get('[data-testid=\"toast-added\"]').should('be.visible'); // toast de agregado\n  // === IR A CARRITO (link del menú/layout) y validar producto ===\n  cy.get('a[href=\"/carrito\"]').click(); // Carrito.jsx\n  cy.get('[data-testid=\"carrito-page\"]').should('be.visible');\n  cy.get('@ticketName').then(name => {\n    cy.get('[data-testid=\"carrito-lista\"]').should('contain', name);\n  });\n  // === IR A CHECKOUT (link \"Ir a checkout\") ===\n  cy.contains('a', 'Ir a checkout').click(); // Carrito.jsx\n  cy.get('[data-testid=\"checkout-form\"]').should('be.visible'); // Checkout.jsx\n  cy.get('@ticketName').then(name => {\n    cy.contains('aside', 'Resumen').should('contain', name); // nombre en el resumen\n  });\n  // === CHECKOUT: completar datos ===\n  cy.get('[data-testid=\"inp-nombre\"]').type('Luciano QA');\n  cy.get('[data-testid=\"inp-email\"]').type('luciano.qa@example.com');\n  cy.get('[data-testid=\"inp-dni\"]').type('30123456');\n  // NÚMERO (AHORA): válido por Luhn\n  cy.get('[data-testid=\"inp-card\"]').type('4242 4242 4242 4242');\n  // asegurate que el botón esté habilitado\n  //cy.get('[data-testid=\"btn-pay\"]').should('not.be.disabled').click()\n  cy.get('[data-testid=\"inp-exp\"]').type('12/30');\n  cy.get('[data-testid=\"inp-cvc\"]').type('123');\n  // PRIMER INTENTO → debe RECHAZAR y quedarse en checkout\n  cy.get('[data-testid=\"btn-pay\"]').click();\n  cy.location('pathname').should('include', '/checkout');\n  cy.get('[role=\"alert\"]').should('be.visible').and('contain', 'Pago rechazado'); // Checkout.jsx\n  // REINTENTO → APRUEBA\n  cy.get('[data-testid=\"inp-card\"]').clear().type('4242 4242 4242 4242');\n  cy.get('[data-testid=\"btn-pay\"]').click();\n  // === CONFIRMACIÓN: textos e ítems ===\n  cy.location('pathname').should('include', '/confirmacion'); // Confirmacion.jsx\n  cy.get('[data-testid=\"confirmacion-page\"]').should('be.visible');\n  cy.contains('¡Compra confirmada!').should('be.visible');\n  cy.contains('Tu orden fue registrada correctamente. Abajo están los detalles.').should('be.visible');\n  cy.get('@ticketName').then(name => {\n    cy.get('[data-testid=\"orden-items\"]').should('contain', name);\n  });\n});",
+              "err": {},
+              "uuid": "ee96aa2e-a2e0-4631-b20e-3a6f993f3f4b",
+              "parentUUID": "42f5da26-de6d-4a5c-8b21-31b545eb5530",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ee96aa2e-a2e0-4631-b20e-3a6f993f3f4b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5997,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "f61b895a-417c-4d20-bfd8-736a76c15b65",
+      "title": "",
+      "fullFile": "cypress\\e2e\\session.expire.cy.js",
+      "file": "cypress\\e2e\\session.expire.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1d8fe22a-08b4-4400-ab4e-8324638152e8",
+          "title": "Sesión expira y recuperación desde catálogo",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "redirige a login al expirar y permite continuar desde el catálogo",
+              "fullTitle": "Sesión expira y recuperación desde catálogo redirige a login al expirar y permite continuar desde el catálogo",
+              "timedOut": null,
+              "duration": 3388,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.readFile('src/data/usuarios.json').then(users => {\n  const {\n    email,\n    password\n  } = users[0];\n  let savedSession;\n  // === LOGIN INICIAL ===\n  cy.visit('/login');\n  cy.get('.bg-blue-600').click();\n  cy.get('[data-testid=\"input-email\"]').type(email);\n  cy.get('[data-testid=\"input-password\"]').type(password);\n  cy.get('[data-testid=\"btn-login\"]').click();\n  // Confirmar acceso al catálogo\n  cy.url().should('include', '/catalogo');\n  cy.contains('h1', 'Catálogo').should('be.visible');\n  // === AGREGAR PRODUCTO ===\n  cy.get('[data-testid^=\"card-\"]').should('have.length.at.least', 1).first().within(() => {\n    cy.contains('Agregar al carrito').click();\n  });\n  cy.get('[data-testid=\"toast-added\"]').should('be.visible');\n  // Guardar sesión actual\n  cy.window().then(win => {\n    savedSession = win.localStorage.getItem('sessionUser');\n  });\n  // === IR A CHECKOUT ===\n  cy.contains('a', 'Checkout').click();\n  cy.url().should('include', '/checkout');\n  cy.get('[data-testid^=\"checkout\"]').should('exist');\n  // === FORZAR EXPIRACIÓN DE SESIÓN ===\n  cy.window().then(win => {\n    const u = JSON.parse(win.localStorage.getItem('sessionUser') || '{}');\n    u.loginAt = 0;\n    win.localStorage.setItem('sessionUser', JSON.stringify(u));\n  });\n  // === REINTENTAR ACCESO AL CHECKOUT ===\n  cy.visit('/checkout', {\n    onBeforeLoad(win) {\n      if (savedSession) {\n        win.localStorage.setItem('sessionUser', savedSession);\n      }\n    }\n  });\n  // Validar redirección automática a login\n  cy.get('.bg-blue-600').click();\n  cy.url().should('include', '/login');\n  cy.get('[data-testid=\"login-form\"]').should('be.visible');\n  // === REINICIAR SESIÓN ===\n  cy.get('[data-testid=\"input-email\"]').type(email);\n  cy.get('[data-testid=\"input-password\"]').type(password);\n  cy.get('[data-testid=\"btn-login\"]').click();\n  // === VALIDAR REDIRECCIÓN AL CATÁLOGO ===\n  cy.url().should('include', '/catalogo');\n  cy.contains('h1', 'Catálogo').should('be.visible');\n  // === CONTINUAR MANUALMENTE AL CHECKOUT ===\n  cy.contains('a', 'Checkout').click();\n  cy.url().should('include', '/checkout');\n  cy.get('[data-testid^=\"checkout\"]').should('be.visible');\n  // === VALIDAR QUE EL CARRITO SE CONSERVA ===\n  cy.get('aside').should('contain', 'Entrada General');\n  cy.get('aside').invoke('text').should('match', /5\\.000/);\n});",
+              "err": {},
+              "uuid": "7500d2de-8a99-410c-b278-e7787b2cc007",
+              "parentUUID": "1d8fe22a-08b4-4400-ab4e-8324638152e8",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7500d2de-8a99-410c-b278-e7787b2cc007"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 3388,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "report-[datetime]",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "reports/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "reportFilename": "report-[datetime]",
+        "charts": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

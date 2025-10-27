@@ -1,0 +1,108 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-10-27T02:30:38.662Z",
+    "end": "2025-10-27T02:30:41.313Z",
+    "duration": 2651,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "215a91a3-4fb7-4972-9706-f863cd8bf54f",
+      "title": "",
+      "fullFile": "cypress\\e2e\\cart.cy.js",
+      "file": "cypress\\e2e\\cart.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "a7f71825-13a1-429e-a432-c2b23903d4ca",
+          "title": "Valida que los datos de la compran se vean en el carrito",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Agrega ticket y luego vacía el carrito",
+              "fullTitle": "Valida que los datos de la compran se vean en el carrito Agrega ticket y luego vacía el carrito",
+              "timedOut": null,
+              "duration": 2545,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// === LOGIN ===\ncy.readFile('src/data/usuarios.json').then(users => {\n  const {\n    email,\n    password\n  } = users[0];\n  cy.visit('/login');\n  cy.get('.bg-blue-600').click();\n  cy.get('[data-testid=\"input-email\"]').type(email);\n  cy.get('[data-testid=\"input-password\"]').type(password);\n  cy.get('[data-testid=\"btn-login\"]').click();\n  // Redirección a Catálogo confirmada por URL o título\n  cy.url().should('include', '/catalogo');\n  cy.contains('h1', 'Catálogo').should('be.visible');\n  // === CATÁLOGO: tomar nombre del primer ticket y agregarlo ===\n  cy.get('[data-testid^=\"card-\"]').first().within(() => {\n    cy.get('h3').should('be.visible').invoke('text').then(t => cy.wrap(t.trim()).as('ticketName'));\n    cy.get('button[data-testid^=\"btn-add-\"]').click();\n  });\n  // toast de agregado\n  cy.get('[data-testid=\"toast-added\"]').should('be.visible');\n  // === MENÚ: ir a CARRITO (sin visit) ===\n  cy.get('a[href=\"/carrito\"]').first().click();\n  // === CARRITO: validar que está el producto ===\n  cy.get('[data-testid=\"carrito-page\"]').should('be.visible');\n  cy.get('@ticketName').then(name => {\n    cy.get('[data-testid=\"carrito-lista\"]').should('contain', name);\n  });\n});\ncy.get('a[href=\"/carrito\"]').click();\ncy.get('[data-testid=\"carrito-lista\"]').should('contain', 'Entrada');\ncy.get('[data-testid=\"carrito-limpiar\"]').click();\ncy.get('[data-testid=\"carrito-vacio\"]').should('be.visible');",
+              "err": {},
+              "uuid": "fa34e88e-6459-42ab-a9d3-fe81a51964fc",
+              "parentUUID": "a7f71825-13a1-429e-a432-c2b23903d4ca",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "fa34e88e-6459-42ab-a9d3-fe81a51964fc"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2545,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "report-[datetime]",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "reports/mochawesome",
+        "overwrite": false,
+        "html": false,
+        "json": true,
+        "reportFilename": "report-[datetime]",
+        "charts": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

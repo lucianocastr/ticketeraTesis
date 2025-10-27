@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Cypress E2E Suite" time="2.651" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-10-27T02:30:38" tests="0" file="cypress\e2e\cart.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Valida que los datos de la compran se vean en el carrito" timestamp="2025-10-27T02:30:38" tests="1" time="2.643" failures="0">
+    <testcase name="Valida que los datos de la compran se vean en el carrito Agrega ticket y luego vacía el carrito" time="2.545" classname="Agrega ticket y luego vacía el carrito">
+    </testcase>
+  </testsuite>
+</testsuites>

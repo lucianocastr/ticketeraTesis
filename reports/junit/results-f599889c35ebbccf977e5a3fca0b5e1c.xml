@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Cypress E2E Suite" time="3.591" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-10-27T02:31:14" tests="0" file="cypress\e2e\session.expire.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Sesión expira y recuperación desde catálogo" timestamp="2025-10-27T02:31:14" tests="1" time="3.583" failures="0">
+    <testcase name="Sesión expira y recuperación desde catálogo redirige a login al expirar y permite continuar desde el catálogo" time="3.388" classname="redirige a login al expirar y permite continuar desde el catálogo">
+    </testcase>
+  </testsuite>
+</testsuites>
