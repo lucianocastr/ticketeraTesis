@@ -53,7 +53,7 @@ jobs:
       BASE_URL: ${{ needs.deploy.outputs.page_url }}
       CI: true
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      ISSUE_NUMBER: 3   # número del issue vinculado
+      ISSUE_NUMBER: 4   # Asignar numero de ticket vinculado
     steps:
       - uses: actions/checkout@v4
 
@@ -146,4 +146,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh issue close $ISSUE_NUMBER --comment "✅ Pruebas E2E OK en workflow #${{ github.run_number }}. Tarjeta movida a Done."
+          gh issue close $ISSUE_NUMBER --comment "Pruebas E2E OK en workflow #${{ github.run_number }}. Tarjeta movida a Done."
