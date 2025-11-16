@@ -96,7 +96,7 @@ jobs:
             cypress/videos
           retention-days: 14
 
-      # Asegurar que existan labels (idempotente)
+      # Asegurar que existan labels - (idempotente)
       - name: Ensure labels exist
         if: always()
         env:
