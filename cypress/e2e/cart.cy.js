@@ -13,7 +13,7 @@ it('Agrega ticket y luego vacía el carrito', () => {
 
       // Redirección a Catálogo confirmada por URL o título
       cy.url().should('include', '/catalogo'); 
-      cy.contains('h1', 'Catálogo').should('be.visible');
+      cy.contains('h1', 'Catlogo').should('be.visible');
 
       // === CATÁLOGO: tomar nombre del primer ticket y agregarlo ===
       cy.get('[data-testid^="card-"]').first().within(() => {
