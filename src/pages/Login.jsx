@@ -27,7 +27,7 @@ export default function Login() {
 
   return (
     <div className="max-w-md mx-auto bg-neutral-800 border border-neutral-700 rounded-lg shadow p-6">
-      <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Login Editado</h1>
 
       <form data-testid="login-form"
         onSubmit={handleSubmit}
