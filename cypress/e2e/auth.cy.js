@@ -5,7 +5,7 @@ describe('Auth: login OK e inválido', () => {
       cy.visit('/login')
             cy.get('.bg-blue-600').click()
 
-      cy.get('h1.font-bold').should('contain.text', 'Login ')
+      cy.get('h1.font-bold').should('contain.text', 'Login')
       cy.get('[data-testid="input-email"]').type(u.email) 
       cy.get('[data-testid="input-password"]').type(u.password)
       cy.get('[data-testid="btn-login"]').click() 
