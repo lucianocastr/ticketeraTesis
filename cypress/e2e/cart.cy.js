@@ -1,3 +1,4 @@
+// test trigger
 describe('Valida que los datos de la compran se vean en el carrito', () => {
 it('Agrega ticket y luego vacía el carrito', () => {
    // === LOGIN ===
@@ -11,7 +12,7 @@ it('Agrega ticket y luego vacía el carrito', () => {
       cy.get('[data-testid="input-password"]').type(password);
       cy.get('[data-testid="btn-login"]').click();
 
-      // Redirección a Catálogo confirmada por URL o título
+      // Redirección Catálogo confirmada por URL o título
       cy.url().should('include', '/catalogo'); 
       cy.contains('h1', 'Catálogo').should('be.visible');
 
