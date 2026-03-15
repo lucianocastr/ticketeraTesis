@@ -166,6 +166,8 @@ jobs:
           body: |
             ✅ Pruebas E2E PASARON en workflow #${{ github.run_number }}.
 
+            Se adjunta reporte de ejecución de pruebas (Mochawesome HTML).
+
             Commit: ${{ github.sha }}
             Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
             Cypress Cloud: https://cloud.cypress.io/projects/mfnt8h/runs
@@ -185,6 +187,8 @@ jobs:
           subject: "❌ E2E FAIL - ${{ github.repository }} - Run #${{ github.run_number }}"
           body: |
             ❌ Pruebas E2E FALLARON en workflow #${{ github.run_number }}.
+
+            Se adjunta reporte de ejecución de pruebas (Mochawesome HTML).
 
             Commit: ${{ github.sha }}
             Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
