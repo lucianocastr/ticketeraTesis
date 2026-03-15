@@ -64,6 +64,9 @@ describe('Flujo completo: login → catálogo → carrito → checkout → confi
       cy.get('[data-testid="inp-exp"]').type('12/30');
       cy.get('[data-testid="inp-cvc"]').type('123');
 
+      // Validar que el total sea visible
+      cy.get('[data-testid="checkout-total"]').should('be.visible');
+
       // Confirmar compra
       cy.get('[data-testid="btn-pay"]').click();
 
