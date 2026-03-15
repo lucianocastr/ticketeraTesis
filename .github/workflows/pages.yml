@@ -81,8 +81,11 @@ jobs:
 
       # Reporte Mochawesome
       - run: mkdir -p reports/html
+        if: always()
       - run: npx mochawesome-merge reports/mochawesome/*.json -o reports/merged.json
+        if: always()
       - run: npx mochawesome-report-generator reports/merged.json -o reports/html --inline -f index
+        if: always()
 
       # Subir artefactos SIEMPRE (pase o falle)
       - uses: actions/upload-artifact@v4
@@ -147,3 +150,23 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh issue close $ISSUE_NUMBER --comment "Pruebas E2E OK en workflow #${{ github.run_number }}. Tarjeta movida a Done."
+
+      # Enviar reporte Mochawesome por email
+      - name: Send Mochawesome report by email
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_USERNAME }}
+          subject: "E2E Report - ${{ github.repository }} - Run #${{ github.run_number }}"
+          body: |
+            Ejecución E2E finalizada en workflow #${{ github.run_number }}.
+
+            Commit: ${{ github.sha }}
+            Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Cypress Cloud: https://cloud.cypress.io/projects/mfnt8h/runs
+          attachments: reports/html/index.html
