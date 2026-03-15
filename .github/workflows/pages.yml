@@ -151,9 +151,9 @@ jobs:
         run: |
           gh issue close $ISSUE_NUMBER --comment "Pruebas E2E OK en workflow #${{ github.run_number }}. Tarjeta movida a Done."
 
-      # Enviar reporte Mochawesome por email
-      - name: Send Mochawesome report by email
-        if: always()
+      # Enviar reporte Mochawesome por email - PASS
+      - name: Send Mochawesome report by email (PASS)
+        if: success()
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -162,9 +162,29 @@ jobs:
           password: ${{ secrets.MAIL_PASSWORD }}
           to: ${{ secrets.MAIL_TO }}
           from: ${{ secrets.MAIL_USERNAME }}
-          subject: "E2E Report - ${{ github.repository }} - Run #${{ github.run_number }}"
+          subject: "✅ E2E PASS - ${{ github.repository }} - Run #${{ github.run_number }}"
           body: |
-            Ejecución E2E finalizada en workflow #${{ github.run_number }}.
+            ✅ Pruebas E2E PASARON en workflow #${{ github.run_number }}.
+
+            Commit: ${{ github.sha }}
+            Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Cypress Cloud: https://cloud.cypress.io/projects/mfnt8h/runs
+          attachments: reports/html/index.html
+
+      # Enviar reporte Mochawesome por email - FAIL
+      - name: Send Mochawesome report by email (FAIL)
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_USERNAME }}
+          subject: "❌ E2E FAIL - ${{ github.repository }} - Run #${{ github.run_number }}"
+          body: |
+            ❌ Pruebas E2E FALLARON en workflow #${{ github.run_number }}.
 
             Commit: ${{ github.sha }}
             Workflow: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
