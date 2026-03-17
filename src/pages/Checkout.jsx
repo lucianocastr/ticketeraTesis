@@ -236,7 +236,7 @@ export default function Checkout() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-sm text-neutral-300">
-                    Vencimiento (MM/YY)
+                    Vencimiento
                   </label>
                   <input
                     className="w-full mt-1 rounded-md bg-neutral-900 border border-neutral-700 px-3 py-2"
@@ -278,7 +278,7 @@ export default function Checkout() {
             <button
               type="submit" data-testid="btn-pay"
               disabled={!formOk || loading}
-              className={`w-full mt-2 rounded-md px-4 py-2 font-medium ${
+              className={`w-full mt-2 rounded-md px-4 py-2 font-medium btn-light ${
                 formOk && !loading
                   ? "bg-blue-600 hover:bg-blue-500"
                   : "bg-neutral-700 cursor-not-allowed"
