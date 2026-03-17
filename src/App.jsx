@@ -12,6 +12,8 @@ import RequireAuth from "./routes/RequireAuth.jsx";
 import RequireCart from "./routes/RequireCart.jsx";
 import RequireOrder from "./routes/RequireOrder.jsx";
 
+import "./App.css";
+
 export default function App() {
   return (
     <Router>
