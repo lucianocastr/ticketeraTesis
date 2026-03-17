@@ -73,6 +73,10 @@ jobs:
           restore-keys: |
             cypress-${{ runner.os }}-
 
+      # Limpiar reportes anteriores para evitar duplicados en merge
+      - name: Clean reports
+        run: rm -rf reports/
+
       # E2E grabando en Cypress Cloud
       - name: Run Cypress (record)
         run: npm run cy:run:all -- --record --key "$CYPRESS_RECORD_KEY" --config baseUrl=${BASE_URL}

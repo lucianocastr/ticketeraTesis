@@ -21,6 +21,7 @@ cypress/screenshots/
 cypress/downloads/
 # resultados locales
 cypress/results/
+reports/
 
 # --- Coverage ---
 coverage/
