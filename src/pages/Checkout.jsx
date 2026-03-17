@@ -153,7 +153,7 @@ export default function Checkout() {
                   </li>
                 ))}
               </ul>
-              <div data-testid="checkout-total" className="hidden flex justify-between border-t border-neutral-700 pt-2 font-medium">
+              <div data-testid="checkout-total" className="flex justify-between border-t border-neutral-700 pt-2 font-medium">
                 <span>Total</span>
                 <span>{fmtARS(total)}</span>
               </div>
