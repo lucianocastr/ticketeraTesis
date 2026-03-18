@@ -253,14 +253,14 @@ export default function Login() {
         </button>
       </form>
 
-      {/* <button
+      <button
         type="button"
         data-testid="btn-forgot-password"
         onClick={() => setStep("forgot-email")}
         className="w-full text-neutral-400 hover:text-white text-sm mt-3 py-1 btn-light"
       >
         Olvidé mi contraseña
-      </button> */}
+      </button>
     </div>
   );
 }
